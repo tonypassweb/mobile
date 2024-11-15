@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/instanceMainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/teacher_name_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Teacher Name 1"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/instance_comment_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I see nigger"
+                android:textColor="#A9A9A9"
+                app:layout_constraintStart_toStartOf="@+id/teacher_name_txt"
+                app:layout_constraintTop_toBottomOf="@+id/teacher_name_txt" />
+
+            <TextView
+                android:id="@+id/instacne_date_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:textColor="#A9A9A9"
+                app:layout_constraintStart_toStartOf="@+id/instance_comment_txt"
+                app:layout_constraintTop_toBottomOf="@+id/instance_comment_txt" />
+
+            <ImageView
+                android:id="@+id/instanceDelete_btn"
+                android:layout_width="42dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/delete" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

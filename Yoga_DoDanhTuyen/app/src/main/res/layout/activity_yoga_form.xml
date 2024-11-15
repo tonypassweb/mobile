@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Yoga.YogaFormActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"> <!-- This attribute makes the scroll view fill the viewport -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Day of the Week (Spinner) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Day of the Week"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinner_day_of_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Time of Course (EditText) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Time of Course"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/timePicker_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#5D6161"
+                android:text="Select Time"
+                app:cornerRadius="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TimeTextView" />
+
+            <TextView
+                android:id="@+id/timeResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Time of course: Not Set"
+                app:layout_constraintEnd_toEndOf="@+id/timePicker_btn"
+                app:layout_constraintStart_toStartOf="@+id/timePicker_btn"
+                app:layout_constraintTop_toBottomOf="@id/timePicker_btn" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Capacity"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edit_text_capacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter capacity"
+                android:inputType="number" />
+
+            <!-- Duration Label -->
+            <TextView
+                android:id="@+id/durationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Duration" />
+
+            <!-- LinearLayout for Duration Input -->
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp">
+
+                <!-- NumberPicker for Hours -->
+                <NumberPicker
+                    android:id="@+id/durationHours_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_gravity="center"
+                    android:minHeight="48dp" />
+
+                <!-- NumberPicker for Minutes -->
+                <NumberPicker
+                    android:id="@+id/durationMinutes_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:descendantFocusability="blocksDescendants"
+                    android:minHeight="48dp" />
+
+                <!-- NumberPicker for Seconds -->
+                <NumberPicker
+                    android:id="@+id/durationSeconds_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:minHeight="48dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Price per Class"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edit_text_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g., £10"
+                android:inputType="numberDecimal" />
+
+            <!-- Type of Class (Spinner) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Type of Class"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinner_class_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Description (EditText) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Description"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edit_text_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Optional"
+                android:inputType="textMultiLine"
+                android:minLines="3" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/instanceRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="265dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_text_description" >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+            <!-- Submit Button -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/instanceAdd_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="40dp"
+                android:text="Add new Instance"
+                app:cornerRadius="20dp"
+                app:strokeWidth="2dp"
+                android:backgroundTint="@android:color/transparent"
+                app:strokeColor="#1A5858"
+                android:textColor="#04292b"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/instanceRecyclerView" />
+
+            <Button
+                android:id="@+id/addOrUpdate_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Submit" />
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="40dp"
+                android:backgroundTint="#333333"
+                android:text="Delete"
+                android:visibility="gone"
+                android:textAllCaps="false"
+                android:textColor="#fa1807"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addOrUpdate_button" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

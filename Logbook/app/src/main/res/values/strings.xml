@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Logbook</string>
+
+    <string-array name="unit_array">
+        <item>Metre</item>
+        <item>Millimetre</item>
+        <item>Mile</item>
+        <item>Foot</item>
+    </string-array>
+</resources>

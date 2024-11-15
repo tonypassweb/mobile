@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "320244811059",
+    "project_id": "yoga-dodanhtuyen",
+    "storage_bucket": "yoga-dodanhtuyen.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320244811059:android:eecb447026272891782a46",
+        "android_client_info": {
+          "package_name": "com.example.yoga_dodanhtuyen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8QAdU2eIInJ02tZ1bN_0NO85yeQHgRn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
