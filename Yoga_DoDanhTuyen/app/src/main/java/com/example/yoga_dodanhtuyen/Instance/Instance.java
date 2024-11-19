@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Instance implements Serializable {
     private String id;
-    private String yogaId = "";
+    private String yogaId;
     private String teacherName;
     private Date date;
     private String comment;
@@ -57,8 +57,8 @@ public class Instance implements Serializable {
         return yogaId;
     }
 
-    public void setYogaId(String courseId) {
-        this.yogaId = courseId;
+    public void setYogaId(String yogaId) {
+        this.yogaId = yogaId;
     }
 }
 

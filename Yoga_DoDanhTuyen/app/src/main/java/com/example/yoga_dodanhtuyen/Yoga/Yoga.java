@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Yoga implements Serializable {
     private String id;
@@ -100,12 +101,24 @@ public class Yoga implements Serializable {
     }
 
     public boolean addInstanceLocally(Instance instance) {
-        if (instance != null && instance.getId() != null) {
-            // Avoid replacing old instances; add or update only
+        if (instance != null) {
+            // If the instance doesn't have an ID, allow adding it with a null or empty ID
+            // Later, you can update the ID once it's assigned (from Firebase or SQLite)
+            if (instance.getId() == null || instance.getId().isEmpty()) {
+                instance.setId(generateTempId()); // Optionally generate a temporary ID if needed
+            }
+
+            // Add or update the instance in the local map (HashMap)
             this.instances.put(instance.getId(), instance);
             return true;
         }
         return false;
+    }
+
+    // Optional method to generate a temporary ID (e.g., for local purposes)
+    private String generateTempId() {
+        // Example: Generate a unique ID, e.g., using UUID or timestamp
+        return UUID.randomUUID().toString();
     }
 
     public HashMap<String, Instance> getInstances() {

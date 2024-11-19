@@ -136,7 +136,7 @@ public class YogaFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validateForm()) {
-                    showInstanceForm(null, null, -1);
+                    showInstanceForm(null);
                 }
             }
         });
@@ -259,7 +259,7 @@ public class YogaFormActivity extends AppCompatActivity {
             if (yogaToUpdate != null) { // Update existing class
                 HashMap<String, Instance> existingInstances = yogaToUpdate.getInstances();
                 yogaToUpdate.setInstances(existingInstances); // Preserve instances
-                dbHelper.updateYoga(yogaToUpdate);
+//                dbHelper.updateYoga(yogaToUpdate);
 
                 // Sync existing instances to Firebase
                 for (Instance instance : existingInstances.values()) {
@@ -279,26 +279,19 @@ public class YogaFormActivity extends AppCompatActivity {
                 yogaToUpdate.setPricePerClass(yogaPrice);
                 yogaToUpdate.setTimeOfCourse(yogaTimeofCourse);
 
-                dbHelper.updateYoga(yogaToUpdate);
+//                dbHelper.updateYoga(yogaToUpdate);
 
             } else {
-                String yogaId = UUID.randomUUID().toString();
-                String yogaDuration = YogaUtils.formatDuration(yogaHours, yogaMinutes, yogaSeconds);
-                int yogaCapacity = Integer.parseInt(yogaCapacityStr);
+                newYoga.setDuration(YogaUtils.formatDuration(yogaHours, yogaMinutes, yogaSeconds));
+                newYoga.setCapacity(Integer.parseInt(yogaCapacityStr));
+                newYoga.setTypeOfClass(yogaClassType); // Assuming you have a field for class type
+                newYoga.setDayOfWeek(yogaDayofTheWeek); // Set day of the week
+                newYoga.setTimeOfCourse(yogaTimeofCourse); // Set time of the course
+                newYoga.setPricePerClass(yogaPrice); // Set the price for the class
+                newYoga.setDescription(yogaDescription); // Set the description for the yoga class
 
-                // Create a new Yoga object
-                Yoga newYoga = new Yoga(yogaId, yogaClassType, yogaDayofTheWeek, yogaTimeofCourse,
-                        yogaCapacity, yogaDuration, yogaPrice, yogaDescription, new HashMap<>());
-
-                // Save the Yoga class to SQLite
-                dbHelper.addYoga(newYoga);
-
-                HashMap<String, Instance> hashMap = new HashMap<>(newYoga.getInstances());
-                // Using the yogaId to set course_id of instances
-                for (Instance value : hashMap.values()) {
-                    value.setYogaId(yogaId);
-                    dbHelper.addInstance(value);
-                }
+                // Save the Yoga
+                dbHelper.addYoga(newYoga, newYoga.getInstances());
             }
         }
     }
@@ -370,7 +363,7 @@ public class YogaFormActivity extends AppCompatActivity {
         }
     }
 
-    public void showInstanceForm(@Nullable Instance instance, @Nullable String instanceId, int position) {
+    public void showInstanceForm(@Nullable Instance instance) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.instances_form, null);
         dialogBuilder.setView(dialogView);
@@ -382,7 +375,7 @@ public class YogaFormActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
 
-        boolean isUpdate = (instance != null && instanceId != null);
+        boolean isUpdate = (instance != null);
 
         if (isUpdate) {
             // Update existing instance
@@ -396,7 +389,7 @@ public class YogaFormActivity extends AppCompatActivity {
             yogaDatePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
             dialogBuilder.setPositiveButton("Update", (dialogInterface, i) -> {
-                handleInstanceSave(instance, instanceId, teacherNameInput, additionCommentInput, yogaDatePicker, calendar, true);
+                handleInstanceSave(instance, teacherNameInput, additionCommentInput, yogaDatePicker, calendar, true);
                 dialogInterface.dismiss();
             });
         } else {
@@ -405,8 +398,7 @@ public class YogaFormActivity extends AppCompatActivity {
 
             dialogBuilder.setPositiveButton("Add", (dialogInterface, i) -> {
                 Instance newInstance = new Instance();
-                String newInstanceId = UUID.randomUUID().toString();
-                handleInstanceSave(newInstance, newInstanceId, teacherNameInput, additionCommentInput, yogaDatePicker, calendar, false);
+                handleInstanceSave(newInstance, teacherNameInput, additionCommentInput, yogaDatePicker, calendar, false);
                 dialogInterface.dismiss();
             });
         }
@@ -416,7 +408,6 @@ public class YogaFormActivity extends AppCompatActivity {
     }
     private void handleInstanceSave(
             Instance newInstance,
-            String instanceId,
             EditText teacherNameInput,
             EditText additionCommentInput,
             DatePicker yogaDatePicker,
@@ -442,7 +433,6 @@ public class YogaFormActivity extends AppCompatActivity {
         calendar.set(year, month, day);
 
         // Update instance fields
-        newInstance.setId(instanceId); // Ensure the instance ID is set
         newInstance.setTeacherName(teacherName);
         newInstance.setComment(additionComment);
         newInstance.setDate(calendar.getTime());
@@ -458,9 +448,8 @@ public class YogaFormActivity extends AppCompatActivity {
         }
 
         // Update RecyclerView with the new instance
-        instanceAdapter.setData(newYoga.getInstances()); // Update adapter data
+        instanceAdapter.setData(newYoga.getInstances());
     }
-
 
     public void deleteInstance(String instanceId) {
         // Reference to the specific instance in Firebase

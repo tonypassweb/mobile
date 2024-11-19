@@ -64,7 +64,7 @@ public class InstanceAdapter extends RecyclerView.Adapter<InstanceAdapter.MyView
         });
         holder.mainLayout.setOnClickListener(view -> {
             if (context instanceof YogaFormActivity) {
-                ((YogaFormActivity) context).showInstanceForm(instance, instanceId, position);
+                ((YogaFormActivity) context).showInstanceForm(instance);
             }
         });
     }
