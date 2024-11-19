@@ -31,8 +31,10 @@ public class InstanceAdapter extends RecyclerView.Adapter<InstanceAdapter.MyView
     }
 
     // Method to update the adapter's data
-    public void setData(List<Instance> newInstanceList) {
-        this.instanceList = newInstanceList;
+    public void setData(HashMap<String, Instance> instanceMap) {
+        this.instanceMap = instanceMap;
+        this.instanceList.clear();
+        instanceList.addAll(new ArrayList<>(instanceMap.values()));
         notifyDataSetChanged();
     }
 
@@ -62,7 +64,7 @@ public class InstanceAdapter extends RecyclerView.Adapter<InstanceAdapter.MyView
         });
         holder.mainLayout.setOnClickListener(view -> {
             if (context instanceof YogaFormActivity) {
-                ((YogaFormActivity) context).showUpdateInstanceForm(instance, instanceId);
+                ((YogaFormActivity) context).showInstanceForm(instance, instanceId, position);
             }
         });
     }

@@ -9,12 +9,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.yoga_dodanhtuyen.Instance.Instance;
 import com.example.yoga_dodanhtuyen.Yoga.Yoga;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.function.Function;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -66,14 +68,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create Class Instances table
         String createClassInstancesTable = "CREATE TABLE " + TABLE_INSTANCES + " (" +
                 INSTANCE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                INSTANCE_COURSE_ID + " INTEGER NOT NULL, " +
-                INSTANCE_FIREBASE_ID + "TEXT NOT NULL, " +
-                INSTANCE_DATE + " TEXT NOT NULL, " +
-                INSTANCE_TEACHER + " TEXT NOT NULL, " +
-                INSTANCE_COMMENTS + " TEXT, " +
-                "FOREIGN KEY(" + INSTANCE_COURSE_ID + ") REFERENCES " + TABLE_YOGA + "(" + COLUMN_ID + "));";
+                INSTANCE_COURSE_ID + " INTEGER NOT NULL, " + // Foreign key to yoga_courses
+                INSTANCE_FIREBASE_ID + " TEXT NOT NULL, " +
+                INSTANCE_DATE + " TEXT NOT NULL, " + // Date of the class instance
+                INSTANCE_TEACHER + " TEXT NOT NULL, " + // Teacher for this instance
+                INSTANCE_COMMENTS + " TEXT, " + // Optional comments
+                "FOREIGN KEY(" + INSTANCE_COURSE_ID + ") REFERENCES " + TABLE_YOGA + "(" + COLUMN_ID + ") ON DELETE CASCADE);"; // Foreign key constraint with ON DELETE CASCADE
         db.execSQL(createClassInstancesTable);
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
@@ -81,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void addYoga(Yoga yoga) {
+    public String addYoga(Yoga yoga) {
         // Firebase
         FirebaseDatabase.getInstance("https://yoga-dodanhtuyen-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("Yoga Peak")
@@ -90,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         // Firebase success
-                        addYogaToSQLite(yoga, true); // Pass true to indicate Firebase success
+                        addYogaToSQLite(yoga, true); // Pass true to indicate Firebase successt
                     } else {
                         // Firebase failure
                         addYogaToSQLite(yoga, false); // Pass false to indicate Firebase failure
@@ -101,6 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     addYogaToSQLite(yoga, false); // Pass false to indicate Firebase failure
                     Toast.makeText(context, "Firebase Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+        return yoga.getId();
     }
 
     private void addYogaToSQLite(Yoga yoga, boolean firebaseSuccess) {
@@ -241,6 +245,80 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             // Failure in both
             Toast.makeText(context, "Error: Failed to update yoga class in both Firebase and SQLite.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void addInstance(Instance instance) {
+        if (instance.getYogaId() == null || instance.getYogaId().isEmpty()) {
+            // Ensure the instance is tied to a yoga class
+            Toast.makeText(context, "Instance must be associated with a valid yoga class.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Path to the specific yoga class
+        DatabaseReference yogaClassRef = FirebaseDatabase.getInstance("https://yoga-dodanhtuyen-default-rtdb.asia-southeast1.firebasedatabase.app")
+                .getReference("Yoga Peak")
+                .child(instance.getYogaId())
+                .child("Instances")
+                .child(instance.getId());
+
+        // Check if the instance already exists under the yoga class
+        yogaClassRef.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult().exists()) {
+                        // Instance already exists under this yoga class
+                        Toast.makeText(context, "Instance already exists under this yoga class.", Toast.LENGTH_SHORT).show();
+                    } else if (task.isSuccessful()) {
+                        // Add instance under the yoga class
+                        yogaClassRef.setValue(instance)
+                                .addOnCompleteListener(firebaseTask -> {
+                                    if (firebaseTask.isSuccessful()) {
+                                        // Firebase success, add to SQLite
+                                        addInstanceToSQLite(instance, true);
+                                    } else {
+                                        // Firebase failure
+                                        addInstanceToSQLite(instance, false);
+                                        Toast.makeText(context, "Failed to add instance to Firebase.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        // Task failed
+                        Toast.makeText(context, "Failed to check instance existence.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Firebase read failure
+                    Toast.makeText(context, "Error checking instance existence: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void addInstanceToSQLite(Instance instance, boolean firebaseSuccess) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // Only insert the instance into the Instances table, not Yoga table
+        cv.put(INSTANCE_FIREBASE_ID, instance.getId()); // Firebase ID
+        cv.put(INSTANCE_COURSE_ID, instance.getYogaId()); // Foreign key referencing yoga_courses
+        cv.put(INSTANCE_DATE, instance.getDate().getTime()); // Date of the instance
+        cv.put(INSTANCE_TEACHER, instance.getTeacherName()); // Teacher of the instance
+        cv.put(INSTANCE_COMMENTS, instance.getComment()); // Optional comments
+
+        // Insert only into the Instances table (make sure no Yoga table insertion happens here)
+        long result = db.insert(TABLE_INSTANCES, null, cv);
+        db.close();
+
+        if (result != -1 && firebaseSuccess) {
+            // Success in both Firebase and SQLite
+            Toast.makeText(context, "Instance added successfully in both Firebase and SQLite!", Toast.LENGTH_SHORT).show();
+        } else if (result != -1) {
+            // Success only in SQLite
+            Toast.makeText(context, "Instance added successfully in SQLite, but Firebase failed.", Toast.LENGTH_SHORT).show();
+        } else if (firebaseSuccess) {
+            // Success only in Firebase
+            Toast.makeText(context, "Instance added successfully in Firebase, but SQLite failed.", Toast.LENGTH_SHORT).show();
+        } else {
+            // Failure in both
+            Toast.makeText(context, "Error: Failed to add instance in both Firebase and SQLite.", Toast.LENGTH_SHORT).show();
         }
     }
 

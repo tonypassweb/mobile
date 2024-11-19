@@ -5,6 +5,7 @@
     <string name="app_name">YogaApp</string>
 
     <string-array name="days_of_week">
+        <item>Day of week</item>
         <item>Monday</item>
         <item>Tuesday</item>
         <item>Wednesday</item>
@@ -15,6 +16,7 @@
     </string-array>
 
     <string-array name="class_types">
+        <item>Class type</item>
         <item>Flow Yoga</item>
         <item>Aerial Yoga</item>
         <item>Family Yoga</item>

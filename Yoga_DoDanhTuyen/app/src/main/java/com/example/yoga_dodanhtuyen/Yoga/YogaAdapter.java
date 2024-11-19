@@ -48,6 +48,7 @@ public class YogaAdapter extends RecyclerView.Adapter<YogaAdapter.MyViewHolder>{
         // Set the day of the week
         holder.yoga_day_txt.setText(yoga.getDayOfWeek());
         holder.yoga_price_txt.setText(String.valueOf(yoga.getPricePerClass()));
+        holder.yoga_time_of_course.setText(String.valueOf(yoga.getTimeOfCourse()));
 
         // Set the onClickListener for the main layout
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +72,7 @@ public class YogaAdapter extends RecyclerView.Adapter<YogaAdapter.MyViewHolder>{
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView yoga_id_txt, yoga_name_txt, yoga_capacity_txt, yoga_duration_txt,
+        TextView yoga_id_txt, yoga_name_txt, yoga_capacity_txt, yoga_duration_txt, yoga_time_of_course,
                 yoga_type_of_class_txt, yoga_day_txt, yoga_price_txt;
         LinearLayout mainLayout;
 
@@ -84,6 +85,7 @@ public class YogaAdapter extends RecyclerView.Adapter<YogaAdapter.MyViewHolder>{
             yoga_capacity_txt = itemView.findViewById(R.id.yoga_capacity_txt);
             yoga_duration_txt = itemView.findViewById(R.id.yoga_duration_txt);
             yoga_type_of_class_txt = itemView.findViewById(R.id.yoga_type_of_class_txt);
+            yoga_time_of_course = itemView.findViewById(R.id.yoga_time_of_course_txt);
             yoga_day_txt = itemView.findViewById(R.id.yoga_day_txt);
             yoga_price_txt = itemView.findViewById(R.id.yoga_price_txt);
             mainLayout = itemView.findViewById(R.id.mainLayout);

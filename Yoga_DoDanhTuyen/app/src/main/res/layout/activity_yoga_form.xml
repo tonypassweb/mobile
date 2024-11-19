@@ -22,6 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Day of the Week"
                 android:textSize="16sp" />
 
@@ -35,6 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Time of Course"
                 android:textSize="16sp" />
 
@@ -55,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="Time of course: Not Set"
                 app:layout_constraintEnd_toEndOf="@+id/timePicker_btn"
                 app:layout_constraintStart_toStartOf="@+id/timePicker_btn"
@@ -64,6 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Capacity"
                 android:textSize="16sp" />
 
@@ -80,6 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_gravity="center_horizontal"
                 android:text="Duration" />
 
@@ -126,6 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Price per Class"
                 android:textSize="16sp" />
 
@@ -141,6 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Type of Class"
                 android:textSize="16sp" />
 
@@ -154,6 +161,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Description"
                 android:textSize="16sp" />
 
@@ -162,6 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Optional"
+                android:layout_marginBottom="8dp"
                 android:inputType="textMultiLine"
                 android:minLines="3" />
 
@@ -200,6 +209,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
                 android:text="Submit" />
 
             <Button

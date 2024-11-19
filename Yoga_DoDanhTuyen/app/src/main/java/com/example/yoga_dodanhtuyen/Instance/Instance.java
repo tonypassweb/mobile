@@ -53,26 +53,12 @@ public class Instance implements Serializable {
         this.comment = comment;
     }
 
-    // Override toString for easier debugging
-    @Override
-    public String toString() {
-        return "Instance{" +
-                "id=" + id +
-                ", yogaId=" + yogaId +
-                ", teacherName='" + teacherName + '\'' +
-                ", date=" + date +
-                ", comment='" + comment + '\'' +
-                '}';
+    public String getYogaId() {
+        return yogaId;
     }
 
-    // Optional validation method to check if the date aligns with yoga schedule rules
-    public boolean isValidDateForYogaDay(int expectedDayOfWeek) {
-        // Assuming expectedDayOfWeek uses Calendar.DAY_OF_WEEK constants
-        if (date == null) return false;
-        java.util.Calendar cal = java.util.Calendar.getInstance();
-        cal.setTime(date);
-        int dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
-        return dayOfWeek == expectedDayOfWeek;
+    public void setYogaId(String courseId) {
+        this.yogaId = courseId;
     }
 }
 

@@ -99,6 +99,15 @@ public class Yoga implements Serializable {
         this.description = description;
     }
 
+    public boolean addInstanceLocally(Instance instance) {
+        if (instance != null && instance.getId() != null) {
+            // Avoid replacing old instances; add or update only
+            this.instances.put(instance.getId(), instance);
+            return true;
+        }
+        return false;
+    }
+
     public HashMap<String, Instance> getInstances() {
         return instances;
     }
